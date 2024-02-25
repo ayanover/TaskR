@@ -1,0 +1,46 @@
+#root{
+    height: 100vh;
+    width: 100vw;
+    background-color: #262424;
+    display: flex;
+    flex-direction: column;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    padding: 30px;
+}
+
+.login-button, .register-button{
+    font-size: 1.5rem;
+    font-weight: 650;
+    margin: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 65px;
+    background: linear-gradient(120deg, #2244b0, midnightblue);;
+    border-radius: 15px;
+    text-decoration: none;
+    color:white;
+}
+
+.login-button:visited{
+    color:white;
+    text-decoration: none;
+}
+
+.register-button{
+    background: none;
+    background-color: white;
+    color: black;
+}
+
+.taskr-logo{
+    background: linear-gradient(120deg, #2244b0, #222286);
+    color:transparent;
+    -webkit-background-clip: text; /* For WebKit (Chrome, Safari) */
+    background-clip: text;
+}

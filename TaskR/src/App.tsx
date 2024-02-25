@@ -1,18 +1,21 @@
 import './App.css'
-import Login from './Components/Login.tsx'
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import LandingPage from "./Pages/LandingPage.tsx";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Login from "./Components/Login.tsx";
 import Register from "./Components/RegisterForm.tsx";
+import Dashboard from "./Pages/Dashboard.tsx"
 function App() {
-
-
-  return (
-    <Router>
-        <Routes>
-            <Route path={'/'} Component={Login}/>
-            <Route path={'/register'} Component={Register}/>
-        </Routes>
-    </Router>
-  )
+    return (
+        <>
+            <Router>
+                <Routes>
+                    <Route path={'/*'} element={<LandingPage/>}/>
+                    <Route path={'/auth/login'} Component={Login}/>
+                    <Route path={'/auth/register'} Component={Register}/>
+                    <Route path={'/dashboard/*'} Component={Dashboard}/>
+                </Routes>
+            </Router>
+        </>
+    )
 }
-
 export default App

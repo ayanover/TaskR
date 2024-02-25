@@ -1,0 +1,12 @@
+.overview-container-big{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.overview-container{
+    height: 95%;
+    width: 95%;
+    background-color: #d3cfca;
+    border-radius: 15px;
+}

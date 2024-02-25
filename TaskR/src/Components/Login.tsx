@@ -1,52 +1,53 @@
 
 import React, { useState } from 'react';
-import '../Styles/Login.css'
-import {Link} from 'react-router-dom'
+import './CompStyles/Login.css'
+import {Link, useNavigate} from 'react-router-dom'
 import axios from 'axios';
-
-const Login: React.FC = () => {
+const Login: React.FC = ()=> {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+    const [loginError, setLoginError] = useState('')
+    const navigate = useNavigate();
     const handleLogin = async () => {
         try {
             const response = await axios.post('http://localhost:3001/login', {
                 username,
                 password,
-            }, {
-                withCredentials: true,
             });
 
             if (response.data.token) {
                 alert('Login successful');
+                navigate('/dashboard');
                 // You might want to store the token in a state or local storage for further use
             } else {
                 alert('Invalid credentials');
             }
         } catch (error) {
-            console.error('Error during login:', error);
+            setLoginError('Invalid credentials');
         }
     };
     return (
         <div className={'login-container'}>
             <h2>Sign In</h2>
             <form>
+                {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
                 <div className={'input-container'}>
-                    <label htmlFor="username">Username:</label>
                     <input
                         type="text"
                         id="username"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => {setUsername(e.target.value); setLoginError("")}}
+                        placeholder="Username"
                     />
                 </div>
                 <div className={'input-container'}>
-                    <label htmlFor="password">Password:</label>
                     <input
                         type="password"
                         id="password"
+                        placeholder="Password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {setPassword(e.target.value); setLoginError("")}}
+
                     />
                 </div>
                 <button type="button" onClick={handleLogin}>
@@ -61,7 +62,7 @@ const Login: React.FC = () => {
                 </button>
             </form>
 
-            <h3>Not a member yet?  | <Link to={'/register'}>Sign Up</Link></h3>
+            <h3>Not a member yet?  | <Link to={'/auth/register'}>Sign Up</Link></h3>
             <h4> <a href={'./Navigation.tsx'}>Forgot Password</a></h4>
         </div>
     );
