@@ -93,7 +93,9 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-
+app.post('/tasks', authenticateToken, async (req, res) => {
+    
+});
 
 function authenticateToken(req, res, nex){
     

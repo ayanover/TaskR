@@ -9,4 +9,9 @@
     width: 95%;
     background-color: #d3cfca;
     border-radius: 15px;
+    box-shadow: 0 0 15px black;
+    & h1{
+        color:black;
+        margin-left: 25px;
+    }
 }

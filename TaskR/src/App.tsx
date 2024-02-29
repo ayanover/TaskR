@@ -7,14 +7,16 @@ import Dashboard from "./Pages/Dashboard.tsx"
 function App() {
     return (
         <>
-            <Router>
-                <Routes>
-                    <Route path={'/*'} element={<LandingPage/>}/>
-                    <Route path={'/auth/login'} Component={Login}/>
-                    <Route path={'/auth/register'} Component={Register}/>
-                    <Route path={'/dashboard/*'} Component={Dashboard}/>
-                </Routes>
-            </Router>
+            <div className={'main-container'}>
+                <Router>
+                    <Routes>
+                        <Route path={'/*'} element={<LandingPage/>}/>
+                        <Route path={'/auth/login'} Component={Login}/>
+                        <Route path={'/auth/register'} Component={Register}/>
+                        <Route path={'/dashboard/*'} Component={Dashboard}/>
+                    </Routes>
+                </Router>
+            </div>
         </>
     )
 }
