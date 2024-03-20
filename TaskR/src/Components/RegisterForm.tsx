@@ -1,5 +1,5 @@
 // src/Login.tsx
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import '../Components/Login.tsx'
 import 'firebase/compat/auth';
 import {Link} from "react-router-dom";
@@ -12,6 +12,20 @@ const RegisterForm: React.FC = () => {
     const [email, setEmail] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
+
+    useEffect(() => {
+        const handleKeyPress = (event: KeyboardEvent) => {
+            if (event.key === 'Enter') {
+                handleRegister();
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        };
+    }, []);
     const handlePasswordChange = (e:any) => {
         const newPassword = e.target.value;
         setPassword(newPassword);
@@ -42,7 +56,6 @@ const RegisterForm: React.FC = () => {
                 password,
                 email
             });
-
             if (response.data.error) {
                 alert('register successful');
                 // You might want to store the token in a state or local storage for further use
@@ -52,6 +65,10 @@ const RegisterForm: React.FC = () => {
         } catch (error) {
             console.error('Error during registration:', error);
         }
+        setUsername('');
+        setEmail('');
+        setPassword('');
+        setRepeatPassword('');
     };
 
     return (

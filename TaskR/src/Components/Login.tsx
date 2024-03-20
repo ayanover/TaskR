@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CompStyles/Login.css'
 import {Link, useNavigate} from 'react-router-dom'
 import axios from 'axios';
@@ -8,6 +8,20 @@ const Login: React.FC = ()=> {
     const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState('')
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const handleKeyPress = (event: KeyboardEvent) => {
+            if (event.key === 'Enter') {
+                handleLogin();
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyPress);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        };
+    }, []);
     const handleLogin = async () => {
         try {
             const response = await axios.post('http://localhost:3001/login', {
@@ -25,6 +39,8 @@ const Login: React.FC = ()=> {
         } catch (error) {
             setLoginError('Invalid credentials');
         }
+        setUsername('');
+        setPassword('');
     };
     return (
         <div className={'login-container'}>
