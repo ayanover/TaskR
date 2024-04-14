@@ -22,4 +22,4 @@ function TaskAdd({ onAddTask }) {
     )
 }
 
-export default TaskAdd
+export default TaskAdd;

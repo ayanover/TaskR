@@ -1,11 +1,8 @@
 import './CompStyles/Task.css'
-import addButton from '../assets/add.svg'
-import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 function Task() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [date, setDate] = useState('')
 
     return (
         <div className={'task-container'}>
