@@ -33,8 +33,14 @@ const userSchema = new mongoose.Schema({
         }
     ],
 });
+const taskSchema = new mongoose.Schema({
+    title: {type: String, required: true},
+    description: {type: String, required: false}
+})
+
 
 const User = mongoose.model('User', userSchema);
+const Task = mongoose.model('Task', taskSchema)
 
 // Routes for user registration and login
 app.post('/register', async (req, res) => {
@@ -65,6 +71,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
+
 app.post('/login', async (req, res) => {
     try {
         console.log('Received login request');
@@ -93,10 +100,46 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-app.post('/tasks', authenticateToken, async (req, res) => {
-    
+app.get('/tasks', async (req, res) => {
+    try {
+        const tasks = await Task.find({});
+        res.json(tasks); // Return tasks as JSON response
+        res.status(1);
+    } catch (error) {
+        console.error('Error fetching tasks:', error);
+        res.status(500).json({ error: 'Internal server error' }); // Return error response if there's an error
+    }
 });
 
+
+app.get('/taskget', async (req, res) => {
+    try {
+        const tasks = await Task.find();
+        res.json(tasks); // Return tasks as JSON response
+        res.status(1);
+    } catch (error) {
+        console.error('Error fetching tasks:', error);
+        res.status(500).json({ error: 'Internal server error' }); // Return error response if there's an error
+    }
+});
+
+app.post('/addtask', async (req, res) => {
+    try{
+    const { title, description } = req.body;
+    const currentId = await bcrypt.hash(title, 10);
+
+    const newTask = new Task({
+        title,
+        description,
+    });
+
+    await newTask.save();
+    res.status(201).json({ message: 'Task added successfully!' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 function authenticateToken(req, res, nex){
     
 }

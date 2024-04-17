@@ -1,16 +1,18 @@
 import './CompStyles/Task.css'
 import addButton from '../assets/add.svg'
-function TaskAdd({ onAddTask }) {
+import axios from "axios";
+import {useState} from "react";
 
-        const handleTaskAdd = () => {
-            // Create a new task object
-            const newTask = {
-                title: 'New Task',
-                description: 'Description of the new task',
-            };
+function TaskAdd() {
+    const [title] = useState('task');
+    const [description] = useState('description');
+        const handleTaskAdd = async () => {
+            try {
+                await axios.post('http://localhost:3001/addtask', { title, description });
+            } catch (error) {
+                console.error('Error adding task:', error);
+            }
 
-            // Call the method passed as prop to add the new task
-            onAddTask(newTask);
         };
     return (
         <div className={'task-container'}>
