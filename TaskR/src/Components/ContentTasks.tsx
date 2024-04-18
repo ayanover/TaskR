@@ -1,4 +1,4 @@
-import './CompStyles/Task.css'
+import './CompStyles/ContentTasks.css'
 import TaskAdd from './TaskAdd.tsx'
 import Task from './Task.tsx'
 import { useState, useEffect } from 'react';

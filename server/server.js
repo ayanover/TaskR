@@ -7,6 +7,7 @@ const cors = require('cors');
 const loginRoute = require('./routes/login.js')
 const app = express();
 const port = 3001;
+const { v4: uuidv4 } = require('uuid');
 
 app.use(cors({
     origin: 'http://localhost:5173',  // Adjust the port as per your React app
@@ -14,7 +15,7 @@ app.use(cors({
 app.use(bodyParser.json());
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/TaskR', {
+mongoose.connect('mongodb://127.0.0.1:27017/TaskR', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -34,8 +35,9 @@ const userSchema = new mongoose.Schema({
     ],
 });
 const taskSchema = new mongoose.Schema({
+    taskId: { type: String, required: true, unique: true, index: true },
     title: {type: String, required: true},
-    description: {type: String, required: false}
+    description: {type: String, required: false},
 })
 
 
@@ -125,13 +127,13 @@ app.get('/taskget', async (req, res) => {
 
 app.post('/addtask', async (req, res) => {
     try{
-    const { title, description } = req.body;
-    const currentId = await bcrypt.hash(title, 10);
+    const { taskId, title, description } = req.body;
 
-    const newTask = new Task({
-        title,
-        description,
-    });
+        const newTask = new Task({
+            taskId,
+            title,
+            description,
+        });
 
     await newTask.save();
     res.status(201).json({ message: 'Task added successfully!' });
@@ -139,6 +141,25 @@ app.post('/addtask', async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });
     }
+});
+
+app.post('/deltask', async(req, res)=>{
+    try{
+        console.log("deltask request received!");
+        const {taskId} = req.body;
+        const task = await Task.findOne({taskId});
+        console.log(task.taskId);
+        console.log("task found");
+
+
+        await task.deleteOne();
+        res.status(201).json({ message: 'Task removed successfully' });
+    }
+    catch(error){
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+
 });
 function authenticateToken(req, res, nex){
     
