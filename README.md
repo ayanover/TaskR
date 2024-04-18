@@ -6,6 +6,8 @@ TaskR is a Task managing web application where personal tasks are stored in the 
 Espressjs is used as a server to validate users, fetch data from mongoDB.
 In the frontend, communication with expressjs server is done using axios.
 
+The app is published under the link: *TBA*
+
 ## To be included:
 * Adding urgency of the tasks
 * Filtering tasks based on urgency
