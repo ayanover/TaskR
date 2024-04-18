@@ -16,6 +16,7 @@ const Task: React.FC<TaskProps> = ({ task }) => {
     const [content, setContent] = useState(task.description);
     const [isDeleted, setIsDeleted] = useState(false);
 
+
     const handleTaskDelete = async () => {
         setIsDeleted(false); // Reset isDeleted to ensure animation triggers on subsequent deletes
         await new Promise(resolve => setTimeout(resolve, 10)); // Wait for a short delay
@@ -27,6 +28,16 @@ const Task: React.FC<TaskProps> = ({ task }) => {
             await axios.post('http://127.0.0.1:3001/deltask', { taskId }, { timeout: 5000 });
         } catch (error) {
             console.error('Error deleting task:', error);
+        }
+    };
+
+    const handleTaskChange = async() => {
+        try{
+            console.log(title);
+            await axios.post('http://localhost:3001/taskupdate', { taskId: task.taskId, title: title, description: content });
+        }
+        catch(error) {
+            console.error('Error updating task:', error);
         }
     };
     return (
@@ -42,6 +53,7 @@ const Task: React.FC<TaskProps> = ({ task }) => {
                            value={title}
                            onChange={(e) => {
                                setTitle(e.target.value);
+                               setTimeout(() => console.log(title), 1000);
                            }}
                            placeholder="Task title"
                     />
@@ -57,6 +69,7 @@ const Task: React.FC<TaskProps> = ({ task }) => {
                               value={content}
                               onChange={(e) => {
                                   setContent(e.target.value);
+                                  setTimeout(() => handleTaskChange(), 100);
                               }}
                     />
                 </div>

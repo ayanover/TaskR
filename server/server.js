@@ -145,14 +145,34 @@ app.post('/addtask', async (req, res) => {
 
 app.post('/deltask', async(req, res)=>{
     try{
-        console.log("deltask request received!");
         const {taskId} = req.body;
         const task = await Task.findOne({taskId});
-        console.log(task.taskId);
-        console.log("task found");
-
 
         await task.deleteOne();
+        res.status(201).json({ message: 'Task removed successfully' });
+    }
+    catch(error){
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+
+});
+
+app.post('/taskupdate', async(req, res)=>{
+    try{
+        console.log("deltask edit received!");
+        const {taskId, title, description} = req.body;
+        const updatedTask = await Task.findOneAndUpdate(
+            { taskId: taskId }, // Filter for finding the document
+            { $set: { title: title, description: description } }, // Update operation
+        );
+        console.log(title);
+        console.log(description);
+
+        if (!updatedTask) {
+            return res.status(404).json({ error: 'Task not found' });
+        }
+
         res.status(201).json({ message: 'Task removed successfully' });
     }
     catch(error){
