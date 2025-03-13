@@ -1,3 +1,4 @@
+*PROJECT ON HOLD*
 # TaskR
 Personal project to develop and show off my skills using React, Expressjs and MongoDB
 
